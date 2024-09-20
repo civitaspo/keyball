@@ -5,6 +5,7 @@ set -euo pipefail
 REPO_ROOT=$(cd $(dirname $0); pwd)
 TMP_ROOT=$REPO_ROOT/tmp
 TMP_QMK_FIRMWARE_ROOT=$TMP_ROOT/qmk_firmware
+TMP_BUILD_OUTPUT_ROOT=$TMP_ROOT/build_output
 SUPPORTED_QMK_VERSION=0.22.14
 
 REPO_KEYBALL_ROOT=$REPO_ROOT/qmk_firmware/keyboards/keyball
@@ -28,3 +29,6 @@ docker run --rm -it \
 	-e SKIP_GIT=true \
 	ghcr.io/qmk/qmk_cli \
 	make "$@"
+
+mkdir -p $TMP_BUILD_OUTPUT_ROOT
+cp -rf $TMP_QMK_FIRMWARE_ROOT/.build/*.hex $TMP_BUILD_OUTPUT_ROOT
